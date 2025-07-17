@@ -2,15 +2,14 @@
  "version": 2,
  "builds": [
   {
-   "src": "db.js",
+   "src": "./db.js",
    "use": "@vercel/node",
-   "config": { "includeFiles": ["dist/**"] }
   }
  ],
  "routes": [
   {
    "src": "/(.*)",
-   "dest": "app.js"
+   "dest": "/db.js"
   }
  ]
 }
