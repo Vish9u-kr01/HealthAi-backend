@@ -14,6 +14,12 @@ const db = mysql.createPool({
   database: 'healthai'
 });
 
+app.get('/',(req,res)=>{
+    res.send({
+        activeStatus:true,
+        error:false,
+    })
+})
 // Signup: Insert into 'user' table
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
