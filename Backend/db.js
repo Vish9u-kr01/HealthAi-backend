@@ -4,7 +4,7 @@ const cors = require('cors');
 // const bcrypt = require('bcrypt');
 
 const app = express();
-app.use(cors());
+app.use(cors({origin:"https://health-ai-frontend-vaqc.vercel.app"}));
 app.use(express.json());
 
 const db = mysql.createPool({
