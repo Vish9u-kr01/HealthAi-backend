@@ -1,32 +1,33 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-// const bcrypt = require('bcrypt');
 
 const app = express();
-const PORT = 3000;
-app.use(cors({origin:"https://health-ai-frontend-vaqc.vercel.app"}));
+// DO NOT hardcode this — Render provides it dynamically
+const PORT = process.env.PORT;
+
+app.use(cors({ origin: "https://health-ai-frontend-vaqc.vercel.app" }));
 app.use(express.json());
 
+// Hardcoded MySQL credentials (NO .env used)
 const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '17147714Vi@',
+  host: 'your-render-mysql-hostname',
+  user: 'your-db-username',
+  password: 'your-db-password',
   database: 'healthai'
 });
 
-app.get('/',(req,res)=>{
-    res.send({
-        activeStatus:true,
-        error:false,
-    })
-})
-// Signup: Insert into 'user' table
-app.post('/signup', async (req, res) => {
+// Health check
+app.get('/', (req, res) => {
+  res.send({
+    activeStatus: true,
+    error: false,
+  });
+});
+
+// Signup
+app.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
-
-  // const hashedPassword = await bcrypt.hash(password, 10);
-
   const query = 'INSERT INTO user (username, email, password) VALUES (?, ?, ?)';
 
   db.query(query, [name, email, password], (err, result) => {
@@ -40,12 +41,12 @@ app.post('/signup', async (req, res) => {
   });
 });
 
-// Login: Fetch from 'user' table and verify
+// Login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-
   const query = 'SELECT * FROM user WHERE email = ?';
-  db.query(query, [email], async (err, results) => {
+
+  db.query(query, [email], (err, results) => {
     if (err) return res.status(500).json({ error: err });
 
     if (results.length === 0) {
@@ -53,12 +54,6 @@ app.post('/login', (req, res) => {
     }
 
     const user = results[0];
-    // const isMatch = await bcrypt.compare(password, user.password);
-
-    // if (!isMatch) {
-    //   return res.status(401).json({ message: 'Invalid password' });
-    // }
-    
     if (password !== user.password) {
       return res.status(401).json({ message: 'Invalid password' });
     }
@@ -73,7 +68,9 @@ app.post('/login', (req, res) => {
   });
 });
 
+// Start server using Render-provided port
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on Render-assigned port: ${PORT}`);
 });
+
 
