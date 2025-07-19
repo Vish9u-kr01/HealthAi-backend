@@ -11,7 +11,7 @@
   "description": "",
   "main": "db.js",
   "scripts": {
-    "script": "db.js",
+    "script": " node db.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node db.js"
   },
