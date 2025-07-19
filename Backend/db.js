@@ -11,9 +11,9 @@ app.use(express.json());
 
 // Hardcoded MySQL credentials (NO .env used)
 const db = mysql.createPool({
-  host: 'your-render-mysql-hostname',
-  user: 'your-db-username',
-  password: 'your-db-password',
+  host: 'localhost',
+  user: 'root',
+  password: '17147714Vi@',
   database: 'healthai'
 });
 
