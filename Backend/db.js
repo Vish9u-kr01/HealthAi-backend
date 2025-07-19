@@ -4,6 +4,7 @@ const cors = require('cors');
 // const bcrypt = require('bcrypt');
 
 const app = express();
+const PORT = 3000;
 app.use(cors({origin:"https://health-ai-frontend-vaqc.vercel.app"}));
 app.use(express.json());
 
@@ -72,7 +73,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.listen(8081, () => {
-  console.log("✅ Server running on http://localhost:8081");
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
 
